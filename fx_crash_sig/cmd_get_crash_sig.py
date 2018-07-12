@@ -5,7 +5,7 @@ import sys
 import ujson as json
 from siggen.generator import SignatureGenerator
 
-from fx_crash_sig.symbolicate import symbolicate
+from fx_crash_sig.symbolicate import Symbolicator
 
 DESCRIPTION = """
 Takes raw crash trace and symbolicates it to return the crash signature
@@ -13,10 +13,11 @@ Takes raw crash trace and symbolicates it to return the crash signature
 
 
 def cmdline():
+    symbolicator = Symbolicator()
     generator = SignatureGenerator()
     crash_data = json.loads(sys.stdin.read())
 
-    symbolicated = symbolicate(crash_data)
+    symbolicated = symbolicator.symbolicate(crash_data)
 
     signature = generator.generate(symbolicated)
 

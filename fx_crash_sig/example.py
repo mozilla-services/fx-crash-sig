@@ -4,16 +4,18 @@ import ujson as json
 from siggen.generator import SignatureGenerator
 
 from fx_crash_sig import sample_traces
-from fx_crash_sig.symbolicate import symbolicate_multi, symbolicate
+from fx_crash_sig.symbolicate import Symbolicator
 
 if __name__ == '__main__':
+    symbolicator = Symbolicator()
+
     trace_dict = json.loads(sample_traces.string_trace1)
 
-    symbolicated = symbolicate(trace_dict)
+    symbolicated = symbolicator.symbolicate(trace_dict)
 
     print(symbolicated)
 
-    symbolicated_list = symbolicate_multi([
+    symbolicated_list = symbolicator.symbolicate_multi([
         sample_traces.trace1,
         sample_traces.trace2,
         sample_traces.trace3,
