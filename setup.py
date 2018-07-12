@@ -1,8 +1,11 @@
 #!/usr/bin/env python
-
-import codecs
-
 from setuptools import setup, find_packages
+
+
+def read_file(name):
+    with open(name) as f:
+        return f.read().strip()
+
 
 install_requires = [
     'requests',
@@ -12,9 +15,9 @@ install_requires = [
 
 setup(
     name='fx-crash-sig',
-    version='0.1.1',
+    version='0.1.2',
     description=' Get crash signature from Firefox crash trace ',
-    long_description=codecs.open('README.md', encoding='utf-8').read(),
+    long_description=read_file('README.md'),
     long_description_content_type='text/markdown',
     maintainer='Ben Wu',
     maintainer_email='bwub124@gmail.com',
