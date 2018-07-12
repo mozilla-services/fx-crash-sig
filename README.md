@@ -29,7 +29,7 @@ signature = crash_processor.get_signature(sample_traces.trace1)
     
 ```
 
-Command line:
+Command line (using [sample.json](/sample.json)):
 
 ```sh
 cat sample.json | fx-crash-sig
