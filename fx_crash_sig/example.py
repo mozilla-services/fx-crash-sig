@@ -14,11 +14,11 @@ if __name__ == '__main__':
 
     print(symbolicated)
 
-    signature = crash_processor.get_signature(symbolicated)
+    signature = crash_processor.get_signature_from_symbolicated(symbolicated)
 
     print(signature)
 
-    signatures = [crash_processor.process_crash_trace(crash)['signature']
+    signatures = [crash_processor.get_signature(crash)['signature']
                   for crash in [
                       sample_traces.trace1,
                       sample_traces.trace2,

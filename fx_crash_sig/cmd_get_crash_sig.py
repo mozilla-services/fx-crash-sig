@@ -15,6 +15,6 @@ def cmdline():
     crash_processor = CrashProcessor()
     crash_data = json.loads(sys.stdin.read())
 
-    signature = crash_processor.process_crash_trace(crash_data)
+    signature = crash_processor.get_signature(crash_data)
 
     print(signature)
