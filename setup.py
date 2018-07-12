@@ -11,18 +11,18 @@ install_requires = [
 ]
 
 setup(
-    name='get-crash-sig',
+    name='fx-crash-sig',
     version=0.1,
     description=' Get crash signature from Firefox crash trace ',
     long_description=codecs.open('README.md', encoding='utf-8').read(),
     maintainer='Ben Wu',
     maintainer_email='benjaminwu124@gmail.com',
-    url='https://github.com/Ben-Wu/get-crash-sig',
+    url='https://github.com/Ben-Wu/fx-crash-sig',
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
     entry_points="""
         [console_scripts]
-        get-crash-sig=get_crash_sig.cmd_get_crash_sig:cmdline
+        fx-crash-sig=fx_crash_sig.cmd_get_crash_sig:cmdline
     """
 )

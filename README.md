@@ -1,4 +1,4 @@
-# get-crash-sig
+# fx-crash-sig
 
 Get crash signature from Firefox crash trace
 

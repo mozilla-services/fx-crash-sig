@@ -3,8 +3,8 @@ from __future__ import print_function
 import ujson as json
 from siggen.generator import SignatureGenerator
 
-from get_crash_sig import sample_traces
-from get_crash_sig.symbolicate import symbolicate_multi, symbolicate
+from fx_crash_sig import sample_traces
+from fx_crash_sig.symbolicate import symbolicate_multi, symbolicate
 
 if __name__ == '__main__':
     trace_dict = json.loads(sample_traces.string_trace1)
