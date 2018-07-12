@@ -3,9 +3,8 @@ from __future__ import print_function
 import sys
 
 import ujson as json
-from siggen.generator import SignatureGenerator
 
-from fx_crash_sig.symbolicate import Symbolicator
+from fx_crash_sig.crash_processor import CrashProcessor
 
 DESCRIPTION = """
 Takes raw crash trace and symbolicates it to return the crash signature
@@ -13,12 +12,9 @@ Takes raw crash trace and symbolicates it to return the crash signature
 
 
 def cmdline():
-    symbolicator = Symbolicator()
-    generator = SignatureGenerator()
+    crash_processor = CrashProcessor()
     crash_data = json.loads(sys.stdin.read())
 
-    symbolicated = symbolicator.symbolicate(crash_data)
-
-    signature = generator.generate(symbolicated)
+    signature = crash_processor.process_crash_trace(crash_data)
 
     print(signature)
