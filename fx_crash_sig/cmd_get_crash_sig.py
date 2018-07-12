@@ -17,4 +17,4 @@ def cmdline():
 
     signature = crash_processor.get_signature(crash_data)
 
-    print(signature)
+    print(json.dumps(signature))
