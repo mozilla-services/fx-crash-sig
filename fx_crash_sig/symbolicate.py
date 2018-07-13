@@ -5,13 +5,17 @@
 import requests
 from itertools import islice
 
+from fx_crash_sig.utils import print_err
+
 
 class Symbolicator:
     def __init__(self, max_frames=40,
-                 api_url='https://symbols.mozilla.org/symbolicate/v5'):
+                 api_url='https://symbols.mozilla.org/symbolicate/v5',
+                 verbose=False):
         self.max_frames = max_frames
         self.api_url = api_url
         self.empty_request = {'memoryMap': [], 'stacks': [], 'version': 5}
+        self.verbose = verbose
 
     def __get_symbolication_request(self, stack_traces):
         """Take stack trace and return body of request to Symbols API"""
@@ -138,9 +142,10 @@ class Symbolicator:
         """Symbolicate a single crash trace
 
         :param dict trace: raw crash trace
-        :return: symbolicated trace
+        :return: dict: symbolicated trace
         """
-        return self.symbolicate_multi([trace])[0]
+        symbolicated = self.symbolicate_multi([trace])
+        return symbolicated if symbolicated is None else symbolicated[0]
 
     def symbolicate_multi(self, traces):
         """Symbolicate a list of crash traces
@@ -154,7 +159,13 @@ class Symbolicator:
         crashing_threads = [t['crash_info'].get('crashing_thread', 0) for
                             t in traces]
 
-        symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
+        try:
+            symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
+        except requests.HTTPError as e:
+            if self.verbose:
+                print_err('fx-crash-sig: Failed Symbolication: {}'.format(e.message))
+                print_err(symbolication_requests)
+            return None
 
         # make into siggen suitable format
         formatted_symbolications = []

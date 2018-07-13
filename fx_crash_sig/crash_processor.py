@@ -5,17 +5,26 @@
 from siggen.generator import SignatureGenerator
 
 from fx_crash_sig.symbolicate import Symbolicator
+from fx_crash_sig.utils import print_err
 
 
 class CrashProcessor:
     def __init__(self, max_frames=40,
-                 api_url='https://symbols.mozilla.org/symbolicate/v5'):
-        self.symbolicator = Symbolicator(max_frames, api_url)
+                 api_url='https://symbols.mozilla.org/symbolicate/v5',
+                 verbose=False):
+        self.symbolicator = Symbolicator(max_frames, api_url, verbose)
         self.sig_generator = SignatureGenerator()
+        self.verbose = verbose
 
     def get_signature(self, crash_data):
-        symbolicated = self.symbolicator.symbolicate(crash_data)
-        signature = self.sig_generator.generate(symbolicated)
+        symbolicated = self.symbolicate(crash_data)
+        if symbolicated is None:
+            return None
+        signature = self.get_signature_from_symbolicated(symbolicated)
+        if self.verbose and len(signature['signature']) == 0:
+            print_err('fx-crash-sig: Failed siggen: {}'
+                      .format(signature['notes']))
+            print_err(symbolicated)
         return signature
 
     def symbolicate(self, crash_data):

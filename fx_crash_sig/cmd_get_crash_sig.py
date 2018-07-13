@@ -4,11 +4,13 @@
 
 from __future__ import print_function
 
+import argparse
 import sys
 
 import ujson as json
 
 from fx_crash_sig.crash_processor import CrashProcessor
+from fx_crash_sig.utils import print_err
 
 DESCRIPTION = """
 Takes raw crash trace and symbolicates it to return the crash signature
@@ -16,9 +18,18 @@ Takes raw crash trace and symbolicates it to return the crash signature
 
 
 def cmdline():
-    crash_processor = CrashProcessor()
-    crash_data = json.loads(sys.stdin.read())
+    parser = argparse.ArgumentParser(description=DESCRIPTION)
+    parser.add_argument(
+        '-v', '--verbose', action='store_true'
+    )
+    args = parser.parse_args()
 
-    signature = crash_processor.get_signature(crash_data)
-
-    print(json.dumps(signature))
+    crash_processor = CrashProcessor(verbose=args.verbose)
+    try:
+        crash_data = json.loads(sys.stdin.read())
+        signature = crash_processor.get_signature(crash_data)
+        if signature is not None:
+            print(json.dumps(signature))
+    except Exception as e:
+        if args.verbose:
+            print_err('fx-crash-sig: Failed: {}'.format(e.message))
