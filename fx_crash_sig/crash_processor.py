@@ -2,10 +2,11 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from __future__ import print_function
+
 from siggen.generator import SignatureGenerator
 
 from fx_crash_sig.symbolicate import Symbolicator
-from fx_crash_sig.utils import print_err
 
 
 class CrashProcessor:
@@ -22,9 +23,7 @@ class CrashProcessor:
             return None
         signature = self.get_signature_from_symbolicated(symbolicated)
         if self.verbose and len(signature['signature']) == 0:
-            print_err('fx-crash-sig: Failed siggen: {}'
-                      .format(signature['notes']))
-            print_err(symbolicated)
+            print('fx-crash-sig: Failed siggen: {}'.format(signature['notes']))
         return signature
 
     def symbolicate(self, crash_data):

@@ -2,10 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+from __future__ import print_function
+
 import requests
 from itertools import islice
-
-from fx_crash_sig.utils import print_err
 
 
 class Symbolicator:
@@ -163,8 +163,7 @@ class Symbolicator:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
         except requests.HTTPError as e:
             if self.verbose:
-                print_err('fx-crash-sig: Failed Symbolication: {}'.format(e.message))
-                print_err(symbolication_requests)
+                print('fx-crash-sig: Failed Symbolication: {}'.format(e.message))
             return None
 
         # make into siggen suitable format
