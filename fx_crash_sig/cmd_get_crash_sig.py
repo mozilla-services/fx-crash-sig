@@ -19,17 +19,20 @@ Takes raw crash trace and symbolicates it to return the crash signature
 def cmdline():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('-v', '--verbose', action='store_true')
+    parser.add_argument('-w', '--windows', action='store_true')
     args = parser.parse_args()
 
-    crash_processor = CrashProcessor(verbose=args.verbose)
+    crash_processor = CrashProcessor(verbose=args.verbose,
+                                     windows=args.windows)
     try:
-        crash_data = json.loads(sys.stdin.read())
+        payload = json.loads(sys.stdin.read())
     except ValueError:
-        print('fx-crash-sig: Failed: Invalid input format')
+        if args.verbose:
+            print('fx-crash-sig: Failed: Invalid input format')
         return
 
     try:
-        signature = crash_processor.get_signature(crash_data)
+        signature = crash_processor.get_signature(payload)
         if signature is not None:
             print(json.dumps(signature))
     except Exception as e:

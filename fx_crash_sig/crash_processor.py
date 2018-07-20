@@ -12,22 +12,43 @@ from fx_crash_sig.symbolicate import Symbolicator
 class CrashProcessor:
     def __init__(self, max_frames=40,
                  api_url='https://symbols.mozilla.org/symbolicate/v5',
-                 verbose=False):
+                 verbose=False,
+                 windows=False):
         self.symbolicator = Symbolicator(max_frames, api_url, verbose)
         self.sig_generator = SignatureGenerator()
         self.verbose = verbose
+        self.windows = windows
 
-    def get_signature(self, crash_data):
-        symbolicated = self.symbolicate(crash_data)
-        if symbolicated is None:
-            return None
+    def get_signature(self, payload):
+        symbolicated = self.symbolicate(payload)
         signature = self.get_signature_from_symbolicated(symbolicated)
         if self.verbose and len(signature['signature']) == 0:
             print('fx-crash-sig: Failed siggen: {}'.format(signature['notes']))
         return signature
 
-    def symbolicate(self, crash_data):
-        return self.symbolicator.symbolicate(crash_data)
+    def symbolicate(self, payload):
+        crash_data = payload.get('stackTraces', {})
+        if len(crash_data) == 0:
+            symbolicated = {}
+        else:
+            symbolicated = self.symbolicator.symbolicate(crash_data)
+
+        metadata = payload['metadata']
+
+        meta_fields = {
+            'ipc_channel_error': 'ipc_channel_error',
+            'MozCrashReason': 'moz_crash_reason',
+            'OOMAllocationSize': 'oom_allocation_size',
+            'ShutdownProgress': 'abort_message',
+            'AsyncShutdownTimeout': 'async_shutdown_timeout'
+        }
+
+        symbolicated['os'] = 'Windows NT' if self.windows else 'Not Windows'
+        for k in meta_fields.keys():
+            if k in metadata:
+                symbolicated[meta_fields[k]] = metadata[k]
+
+        return symbolicated
 
     def get_signature_from_symbolicated(self, symbolicated):
         return self.sig_generator.generate(symbolicated)
