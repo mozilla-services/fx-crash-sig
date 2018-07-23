@@ -133,6 +133,8 @@ class Symbolicator:
         return sym_result
 
     def __try_get_sym_req(self, trace):
+        if trace is None:
+            return self.empty_request
         try:
             return self.__get_symbolication_request(trace)
         except ValueError:
@@ -144,6 +146,8 @@ class Symbolicator:
         :param dict trace: raw crash trace
         :return: dict: symbolicated trace
         """
+        if trace is None:
+            return {}
         symbolicated = self.symbolicate_multi([trace])
         return symbolicated if symbolicated is None else symbolicated[0]
 

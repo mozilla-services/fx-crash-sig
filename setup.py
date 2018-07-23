@@ -20,7 +20,7 @@ install_requires = [
 
 setup(
     name='fx-crash-sig',
-    version='0.1.8',
+    version='0.1.9',
     description=' Get crash signature from Firefox crash trace ',
     long_description=read_file('README.md'),
     long_description_content_type='text/markdown',
@@ -37,5 +37,6 @@ setup(
     classifiers=[
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Programming Language :: Python :: 2 :: Only',
+        'Development Status :: 2 - Pre-Alpha',
     ]
 )

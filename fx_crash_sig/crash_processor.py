@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 
+import json
 from siggen.generator import SignatureGenerator
 
 from fx_crash_sig.symbolicate import Symbolicator
@@ -27,8 +28,8 @@ class CrashProcessor:
         return signature
 
     def symbolicate(self, payload):
-        crash_data = payload.get('stackTraces', {})
-        if len(crash_data) == 0:
+        crash_data = payload.get('stackTraces', None)
+        if crash_data is None or len(crash_data) == 0:
             symbolicated = {}
         else:
             symbolicated = self.symbolicator.symbolicate(crash_data)
@@ -39,7 +40,6 @@ class CrashProcessor:
             'ipc_channel_error': 'ipc_channel_error',
             'MozCrashReason': 'moz_crash_reason',
             'OOMAllocationSize': 'oom_allocation_size',
-            'ShutdownProgress': 'abort_message',
             'AsyncShutdownTimeout': 'async_shutdown_timeout'
         }
 
@@ -47,6 +47,14 @@ class CrashProcessor:
         for k in meta_fields.keys():
             if k in metadata:
                 symbolicated[meta_fields[k]] = metadata[k]
+
+        # async_shutdown_timeout should be json string not dict
+        if 'async_shutdown_timeout' in metadata:
+            try:
+                metadata['async_shutdown_timeout'] = (
+                    json.dumps(metadata['async_shutdown_timeout']))
+            except TypeError:
+                metadata.pop('async_shutdown_timeout')
 
         return symbolicated
 
