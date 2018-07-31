@@ -31,6 +31,10 @@ class CrashProcessor:
         crash_data = payload.get('stackTraces', None)
         if crash_data is None or len(crash_data) == 0:
             symbolicated = {}
+        elif 'ipc_channel_error' in payload:
+            # ipc_channel_error will always overwrite the crash signature so
+            # we don't need to symbolicate to get the signature
+            symbolicated = {}
         else:
             symbolicated = self.symbolicator.symbolicate(crash_data)
 
