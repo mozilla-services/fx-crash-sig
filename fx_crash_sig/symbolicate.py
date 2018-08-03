@@ -18,7 +18,11 @@ class Symbolicator:
         self.verbose = verbose
 
     def __get_symbolication_request(self, stack_traces):
-        """Take stack trace and return body of request to Symbols API"""
+        """Take stack trace and return body of request to Symbols API
+
+        Generates a list of modules to symbolicate and a list of memory
+        addresses in each module
+        """
         # make sure we have threads, modules, and crashing_thread
         missing = ''
         if 'threads' not in stack_traces:
