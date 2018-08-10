@@ -9,7 +9,7 @@ Take crash ping stack traces and:
 2. use [socorro-siggen](https://github.com/willkg/socorro-siggen) to get crash signature
 
 
-## Install
+## Install (from [PyPI](https://pypi.org/project/fx-crash-sig/))
 
 ```sh
 pip install fx-crash-sig
