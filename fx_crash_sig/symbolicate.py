@@ -153,7 +153,7 @@ class Symbolicator:
         if trace is None:
             return {}
         symbolicated = self.symbolicate_multi([trace])
-        return symbolicated if symbolicated is None else symbolicated[0]
+        return {} if symbolicated is None else symbolicated[0]
 
     def symbolicate_multi(self, traces):
         """Symbolicate a list of crash traces
