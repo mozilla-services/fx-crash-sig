@@ -7,14 +7,12 @@ from __future__ import print_function
 import json
 from siggen.generator import SignatureGenerator
 
+from fx_crash_sig import SYMBOLS_API
 from fx_crash_sig.symbolicate import Symbolicator
 
 
 class CrashProcessor:
-    def __init__(self, max_frames=40,
-                 api_url='https://symbols.mozilla.org/symbolicate/v5',
-                 verbose=False,
-                 windows=False):
+    def __init__(self, max_frames=40, api_url=SYMBOLS_API, verbose=False, windows=False):
         self.symbolicator = Symbolicator(max_frames, api_url, verbose)
         self.sig_generator = SignatureGenerator()
         self.verbose = verbose
@@ -22,10 +20,10 @@ class CrashProcessor:
 
     def get_signature(self, payload):
         symbolicated = self.symbolicate(payload)
-        signature = self.get_signature_from_symbolicated(symbolicated)
-        if self.verbose and len(signature['signature']) == 0:
-            print('fx-crash-sig: Failed siggen: {}'.format(signature['notes']))
-        return signature
+        result = self.get_signature_from_symbolicated(symbolicated)
+        if self.verbose and len(result.signature) == 0:
+            print('fx-crash-sig: Failed siggen: {}'.format(result.notes))
+        return result
 
     def symbolicate(self, payload):
         crash_data = payload.get('stackTraces', None)

@@ -23,19 +23,18 @@ if __name__ == '__main__':
     trace_dict = wrap_in_payload(json.loads(sample_traces.string_trace2))
 
     symbolicated = crash_processor.symbolicate(trace_dict)
-
     print(symbolicated)
 
     if symbolicated is not None:
-        signature = crash_processor.get_signature_from_symbolicated(symbolicated)
-        print(signature)
+        result = crash_processor.get_signature_from_symbolicated(symbolicated)
+        print(result.signature)
 
-    signatures = [crash_processor.get_signature(wrap_in_payload(crash))
-                  for crash in [
-                      sample_traces.trace1,
-                      sample_traces.trace2,
-                  ]]
+    results = [crash_processor.get_signature(wrap_in_payload(crash))
+               for crash in [
+                   sample_traces.trace1,
+                   sample_traces.trace2,
+               ]]
 
-    signatures = [sig['signature'] for sig in signatures if sig is not None]
+    signatures = [result.signature for result in results]
 
     print(signatures)

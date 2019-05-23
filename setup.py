@@ -14,7 +14,7 @@ def read_file(name):
 
 install_requires = [
     'requests',
-    'siggen',
+    'siggen<2',
     'ujson',
 ]
 
@@ -36,7 +36,7 @@ setup(
     """,
     classifiers=[
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
-        'Programming Language :: Python :: 2 :: Only',
+        'Programming Language :: Python :: 3 :: Only',
         'Development Status :: 2 - Pre-Alpha',
     ]
 )

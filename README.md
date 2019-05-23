@@ -34,3 +34,14 @@ Command line (using [sample.json](/sample.json)):
 ```sh
 cat sample.json | fx-crash-sig
 ```
+
+```sh
+python example.py
+```
+
+
+## Run tests
+
+```sh
+python setup.py test
+```
