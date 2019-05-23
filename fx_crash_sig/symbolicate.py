@@ -7,11 +7,11 @@ from __future__ import print_function
 import requests
 from itertools import islice
 
+from fx_crash_sig import SYMBOLS_API
+
 
 class Symbolicator:
-    def __init__(self, max_frames=40,
-                 api_url='https://symbols.mozilla.org/symbolicate/v5',
-                 verbose=False):
+    def __init__(self, max_frames=40, api_url=SYMBOLS_API, verbose=False):
         self.max_frames = max_frames
         self.api_url = api_url
         self.empty_request = {'memoryMap': [], 'stacks': [], 'version': 5}
