@@ -5,10 +5,30 @@
 from __future__ import print_function
 
 import json
+import pkg_resources
+import sys
+from siggen import (
+    __version__ as siggen_version,
+    __releasedate__ as siggen_releasedate
+)
 from siggen.generator import SignatureGenerator
 
 from fx_crash_sig import SYMBOLS_API
 from fx_crash_sig.symbolicate import Symbolicator
+
+
+def get_version_info():
+    """Returns version information for debugging."""
+    try:
+        fx_crash_sig_version = pkg_resources.get_distribution('fx-crash-sig').version
+    except (AttributeError, pkg_resources.DistributionNotFound):
+        fx_crash_sig_version = 'unknown'
+
+    return {
+        'siggen': '%s (%s)' % (siggen_version, siggen_releasedate),
+        'python': sys.version.replace('\n', ' '),
+        'fx-crash-sig': fx_crash_sig_version
+    }
 
 
 class CrashProcessor:

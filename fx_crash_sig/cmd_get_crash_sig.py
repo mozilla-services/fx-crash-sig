@@ -9,7 +9,7 @@ import sys
 
 import ujson as json
 
-from fx_crash_sig.crash_processor import CrashProcessor
+from fx_crash_sig.crash_processor import CrashProcessor, get_version_info
 
 DESCRIPTION = """
 Takes raw crash trace and symbolicates it to return the crash signature
@@ -20,7 +20,14 @@ def cmdline():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument('-v', '--verbose', action='store_true')
     parser.add_argument('-w', '--windows', action='store_true')
+    parser.add_argument('--version', action='store_true')
     args = parser.parse_args()
+
+    if args.version:
+        version_info = get_version_info()
+        for key in sorted(version_info):
+            print('%s: %s' % (key, version_info[key]))
+        return
 
     crash_processor = CrashProcessor(verbose=args.verbose,
                                      windows=args.windows)
