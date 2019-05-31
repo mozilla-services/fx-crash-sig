@@ -17,7 +17,7 @@ pip install fx-crash-sig
 
 ## Usage
 
-[Example script](/fx_crash_sig/example.py):
+[Example script](/example.py):
 
 ```py
 from fx_crash_sig import sample_traces
