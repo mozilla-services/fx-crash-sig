@@ -28,7 +28,7 @@ def cmdline():
     if args.version:
         version_info = get_version_info()
         for key in sorted(version_info):
-            print('%s: %s' % (key, version_info[key]))
+            print('{}: {}'.format(key, version_info[key]))
         return
 
     crash_processor = CrashProcessor(verbose=args.verbose,
