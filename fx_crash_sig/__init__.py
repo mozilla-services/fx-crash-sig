@@ -24,7 +24,7 @@ def get_version_info():
         fx_crash_sig_version = 'unknown'
 
     return {
-        'siggen': '%s (%s)' % (siggen_version, siggen_releasedate),
+        'siggen': '{} ({})'.format(siggen_version, siggen_releasedate),
         'python': sys.version.replace('\n', ' '),
         'fx-crash-sig': fx_crash_sig_version
     }
