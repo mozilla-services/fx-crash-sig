@@ -23,7 +23,7 @@ class CrashProcessor:
         return result
 
     def symbolicate(self, payload):
-        crash_data = payload.get('stackTraces', None)
+        crash_data = payload.get('stack_traces', None)
         if crash_data is None or len(crash_data) == 0:
             symbolicated = {}
         elif 'ipc_channel_error' in payload:
@@ -33,8 +33,7 @@ class CrashProcessor:
         else:
             symbolicated = self.symbolicator.symbolicate(crash_data)
 
-        metadata = payload['metadata']
-
+        metadata = payload.get('metadata') or {}
         meta_fields = {
             'ipc_channel_error': 'ipc_channel_error',
             'MozCrashReason': 'moz_crash_reason',
