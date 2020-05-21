@@ -78,10 +78,9 @@ class Symbolicator:
                 ip_int = int(src_frame['ip'], 16)
                 out_frame['offset'] = src_frame['ip']
 
-                if 'module_index' not in src_frame:
+                module_index = src_frame.get('module_index')
+                if module_index is None:
                     continue
-
-                module_index = src_frame['module_index']
                 if not (module_index >= 0 and module_index < len(modules)):
                     msg = "module_index " + module_index + " out of range for "
                     msg += "thread " + thread_idx + " frame " + frame_idx
@@ -172,8 +171,7 @@ class Symbolicator:
         symbolication_requests = {
             'jobs': [self.__try_get_sym_req(t) for t in traces]
         }
-        crashing_threads = [t['crash_info'].get('crashing_thread', 0) for
-                            t in traces]
+        crashing_threads = [t.get('crash_info', {}).get('crashing_thread', 0) if t else 0 for t in traces]
 
         try:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
