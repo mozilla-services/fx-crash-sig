@@ -22,6 +22,26 @@ class CrashProcessor:
             print('fx-crash-sig: Failed siggen: {}'.format(result.notes))
         return result
 
+    def get_signatures_multi(self, opaque_ids, payloads):
+        crash_data = [payload.get('stack_traces', None) for payload in payloads]
+        symbolicated = self.symbolicator.symbolicate_multi(crash_data)
+
+        if symbolicated is None:
+            # One or more of the crashes errored out, let's do them individually
+            # and log the opaque_ids entries for the ones that error out.
+            symbolicated = []
+            for (opaque_id, crash_datum) in zip(opaque_ids, crash_data):
+                symbolicated_datum = self.symbolicator.symbolicate(crash_datum)
+                if self.verbose and symbolicated_datum == {}:
+                    print('fx-crash-sig: Failed symbolicating id: {}'.format(opaque_id), file=sys.stderr)
+                symbolicated.append(symbolicated_datum)
+
+        sigs = []
+        for (payload, sym) in zip(payloads, symbolicated):
+            sym = self.__postprocess_symbolicated(payload, sym)
+            sigs.append(self.get_signature_from_symbolicated(sym))
+        return sigs
+
     def symbolicate(self, payload):
         crash_data = payload.get('stack_traces', None)
         if crash_data is None or len(crash_data) == 0:
@@ -33,6 +53,9 @@ class CrashProcessor:
         else:
             symbolicated = self.symbolicator.symbolicate(crash_data)
 
+        return self.__postprocess(payload, symbolicated)
+
+    def __postprocess_symbolicated(self, payload, symbolicated):
         metadata = payload.get('metadata') or {}
         meta_fields = {
             'ipc_channel_error': 'ipc_channel_error',
