@@ -5,6 +5,7 @@
 from __future__ import print_function
 
 import requests
+import sys
 from itertools import islice
 
 from fx_crash_sig import SYMBOLS_API
@@ -177,7 +178,9 @@ class Symbolicator:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
         except requests.HTTPError as e:
             if self.verbose:
-                print('fx-crash-sig: Failed Symbolication: {}'.format(e.message))
+                print('fx-crash-sig: Failed Symbolication: {}'.format(e), file=sys.stderr)
+                print('fx-crash-sig: Request payload was: {}'.format(symbolication_requests), file=sys.stderr)
+                print('fx-crash-sig: Got response: {}'.format(e.response.text), file=sys.stderr)
             return None
 
         # make into siggen suitable format
