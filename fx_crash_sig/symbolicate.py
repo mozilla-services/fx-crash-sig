@@ -132,12 +132,11 @@ class Symbolicator:
         return sym_request
 
     def __get_symbolicated_trace(self, sym_request):
-        headers = {
-            "User-Agent": "fx-crash-sig/1.0"
-        }
         response = requests.post(
             self.api_url,
-            headers=headers,
+            headers={
+                "User-Agent": "fx-crash-sig/1.0"
+            },
             json=sym_request
         )
         response.raise_for_status()
