@@ -38,6 +38,8 @@ class Symbolicator:
                 missing = 'crashing_thread'
             else:
                 crashing_thread = stack_traces['crash_info']['crashing_thread']
+                if crashing_thread is None:
+                    missing = 'crashing_thread'
 
         if missing:
             msg = "missing " + missing
