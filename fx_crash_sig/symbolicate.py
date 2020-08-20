@@ -49,8 +49,7 @@ class Symbolicator:
             raise ValueError(msg)
 
         if not (crashing_thread >= 0 and crashing_thread < len(threads)):
-            msg = "crashing_thread " + str(crashing_thread)
-            msg += " out of range"
+            msg = f"crashing_thread {crashing_thread} out of range"
             raise ValueError(msg)
 
         modules_to_symbolicate = []
@@ -72,8 +71,7 @@ class Symbolicator:
                 out_frame = {}
 
                 if 'ip' not in src_frame:
-                    msg = "missing ip for thread " + thread_idx + " frame "
-                    msg += frame_idx
+                    msg = f"missing ip for thread {thread_idx} frame {frame_idx}"
                     raise ValueError(msg)
 
                 ip_int = int(src_frame['ip'], 16)
@@ -83,21 +81,20 @@ class Symbolicator:
                 if module_index is None:
                     continue
                 if not (module_index >= 0 and module_index < len(modules)):
-                    msg = "module_index " + module_index + " out of range for "
-                    msg += "thread " + thread_idx + " frame " + frame_idx
+                    msg = f"module_index {module_index} out of range for "
+                    msg += f"thread {thread_idx} frame {frame_idx}"
                     raise ValueError(msg)
 
                 module = modules[module_index]
 
                 if 'base_addr' not in module:
-                    msg = "missing base_addr for module " + module_index
+                    msg = f"missing base_addr for module {module_index}"
                     raise ValueError(msg)
 
                 try:
                     module_offset_int = ip_int - int(module['base_addr'], 16)
                 except ValueError:
-                    msg = "bad base_addr " + module['base_addr']
-                    msg += "for module " + module_index
+                    msg = f"bad base_addr {module['base_addr']} for module {module_index}"
                     raise ValueError(msg)
 
                 if 'filename' in module:
