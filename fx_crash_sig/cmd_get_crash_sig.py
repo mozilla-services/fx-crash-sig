@@ -33,12 +33,17 @@ def cmdline():
 
     crash_processor = CrashProcessor(verbose=args.verbose,
                                      windows=args.windows)
+
+    if sys.stdin.isatty():
+        print('fx-crash-sig: Failed: pass crash trace using stdin')
+        sys.exit(1)
+
     try:
         payload = json.loads(sys.stdin.read())
     except ValueError:
         if args.verbose:
             print('fx-crash-sig: Failed: Invalid input format')
-        return
+        sys.exit(1)
 
     try:
         signature = crash_processor.get_signature(payload)
@@ -47,3 +52,4 @@ def cmdline():
     except Exception as e:
         if args.verbose:
             print('fx-crash-sig: Failed: {}'.format(e.message))
+        sys.exit(1)
