@@ -26,7 +26,6 @@ from fx_crash_sig.crash_processor import CrashProcessor
 crash_processor = CrashProcessor()
 
 signature = crash_processor.get_signature(sample_traces.trace1)
-    
 ```
 
 Command line (using [sample.json](/sample.json)):
@@ -40,8 +39,27 @@ python example.py
 ```
 
 
-## Run tests
+## For develpment
+
+Build:
 
 ```sh
-python setup.py test
+make build
 ```
+
+Lint:
+
+```sh
+make lint
+make reformat
+```
+
+Test:
+
+```sh
+make test
+```
+
+If you have problems with file permissions when using the Docker image, edit
+your `.env` file and change the `USER_ID` and `GROUP_ID` values to match your
+uid and gid.
