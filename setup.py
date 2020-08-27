@@ -13,15 +13,19 @@ def read_file(name):
 
 
 install_requires = [
-    'requests',
-    'siggen<2',
-    'ujson',
+    "requests==2.24.0",
+    "ujson==1.35",
+    "google-cloud-bigquery==1.27.2",
+
+    # NOTE(willkg): We always want to run the latest siggen, so don't pin the
+    # version
+    "siggen<2",
 ]
 
 setup(
     name='fx-crash-sig',
     version='0.1.11',
-    description=' Get crash signature from Firefox crash trace ',
+    description='Get crash signature from Firefox crash trace',
     long_description=read_file('README.md'),
     long_description_content_type='text/markdown',
     maintainer='Ben Wu',

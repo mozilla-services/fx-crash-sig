@@ -1,4 +1,8 @@
+.env
 *~
 *.swp
 __pycache__
+.docker-build
+build
+dist
 fx_crash_sig.egg-info/
