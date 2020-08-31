@@ -41,13 +41,12 @@ clean:  ## | Remove build and runtime artifacts
 
 .PHONY: lint
 lint: .docker-build  ## | Run linters
-	docker-compose run --rm app flake8
-	docker-compose run --rm app black --line-length=88 --target-version=py36 --check fx_crash_sig tests
+	docker-compose run --rm app /app/bin/run_lint.sh
 
 .PHONY: reformat 
 reformat:  ## | Reformat code
-	docker-compose run --rm app black --line-length=88 --target-version=py36 fx_crash_sig tests
+	docker-compose run --rm app /app/bin/run_lint.sh --reformat
 
 .PHONY: test
 test:  ## | Run tests
-	docker-compose run --rm app pytest tests/
+	docker-compose run --rm app /app/bin/run_tests.sh

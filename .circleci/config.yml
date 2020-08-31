@@ -38,7 +38,7 @@ jobs:
       - restore-docker
       - run:
           name: Test Code
-          command: docker run app:build make test
+          command: docker run app:build /app/bin/run_tests.sh
 
   lint:
     docker: *docker
@@ -46,7 +46,7 @@ jobs:
       - restore-docker
       - run:
           name: Lint Code
-          command: docker run app:build make lint
+          command: docker run app:build /app/bin/run_lint.sh
 
 workflows:
   version: 2
