@@ -29,11 +29,10 @@ if __name__ == '__main__':
         result = crash_processor.get_signature_from_symbolicated(symbolicated)
         print(result.signature)
 
-    results = [crash_processor.get_signature(wrap_in_payload(crash))
-               for crash in [
-                   sample_traces.trace1,
-                   sample_traces.trace2,
-               ]]
+    results = [
+        crash_processor.get_signature(wrap_in_payload(crash))
+        for crash in [sample_traces.trace1, sample_traces.trace2]
+    ]
 
     signatures = [result.signature for result in results]
 

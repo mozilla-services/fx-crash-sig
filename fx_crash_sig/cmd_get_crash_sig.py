@@ -20,29 +20,28 @@ Takes raw crash trace and symbolicates it to return the crash signature
 
 def cmdline():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument('-v', '--verbose', action='store_true')
-    parser.add_argument('-w', '--windows', action='store_true')
-    parser.add_argument('--version', action='store_true')
+    parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("-w", "--windows", action="store_true")
+    parser.add_argument("--version", action="store_true")
     args = parser.parse_args()
 
     if args.version:
         version_info = get_version_info()
         for key in sorted(version_info):
-            print('{}: {}'.format(key, version_info[key]))
+            print("{}: {}".format(key, version_info[key]))
         return
 
-    crash_processor = CrashProcessor(verbose=args.verbose,
-                                     windows=args.windows)
+    crash_processor = CrashProcessor(verbose=args.verbose, windows=args.windows)
 
     if sys.stdin.isatty():
-        print('fx-crash-sig: Failed: pass crash trace using stdin')
+        print("fx-crash-sig: Failed: pass crash trace using stdin")
         sys.exit(1)
 
     try:
         payload = json.loads(sys.stdin.read())
     except ValueError:
         if args.verbose:
-            print('fx-crash-sig: Failed: Invalid input format')
+            print("fx-crash-sig: Failed: Invalid input format")
         sys.exit(1)
 
     try:
@@ -51,5 +50,5 @@ def cmdline():
             print(json.dumps(signature))
     except Exception as e:
         if args.verbose:
-            print('fx-crash-sig: Failed: {}'.format(e.message))
+            print("fx-crash-sig: Failed: {}".format(e.message))
         sys.exit(1)

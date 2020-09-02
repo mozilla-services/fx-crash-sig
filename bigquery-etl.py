@@ -22,7 +22,7 @@ if len(sys.argv) != 2:
     print("USAGE: %s <date in YYYY-MM-DD format>" % sys.argv[0])
     sys.exit(1)
 
-proc = CrashProcessor(verbose=True,windows=True)
+proc = CrashProcessor(verbose=True, windows=True)
 
 client = bigquery.Client()
 query_job = client.query(QUERY_TEMPLATE.format(date=sys.argv[1]))
@@ -32,10 +32,12 @@ CHUNK_SIZE = 10
 chunk_count = math.ceil(result.total_rows / CHUNK_SIZE)
 print(f"Rows: {result.total_rows}, Chunks: {chunk_count}", file=sys.stderr)
 
+
 def get_sigs(chunk):
     (doc_ids, payloads) = chunk
     sigs = proc.get_signatures_multi(doc_ids, payloads)
     return (doc_ids, sigs)
+
 
 class GeneratorLen(object):
     """

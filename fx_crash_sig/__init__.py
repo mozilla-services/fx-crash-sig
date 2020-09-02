@@ -5,13 +5,10 @@
 import pkg_resources
 import sys
 
-from siggen import (
-    __version__ as siggen_version,
-    __releasedate__ as siggen_releasedate
-)
+from siggen import __version__ as siggen_version, __releasedate__ as siggen_releasedate
 
 
-SYMBOLS_API = 'https://symbols.mozilla.org/symbolicate/v5'
+SYMBOLS_API = "https://symbols.mozilla.org/symbolicate/v5"
 
 
 def get_version_info():
@@ -19,12 +16,12 @@ def get_version_info():
     # Figure out fx-crash-sig version using metadata from the install. If it's not
     # installed, then we'll call it "unknown".
     try:
-        fx_crash_sig_version = pkg_resources.get_distribution('fx-crash-sig').version
+        fx_crash_sig_version = pkg_resources.get_distribution("fx-crash-sig").version
     except (AttributeError, pkg_resources.DistributionNotFound):
-        fx_crash_sig_version = 'unknown'
+        fx_crash_sig_version = "unknown"
 
     return {
-        'siggen': '{} ({})'.format(siggen_version, siggen_releasedate),
-        'python': sys.version.replace('\n', ' '),
-        'fx-crash-sig': fx_crash_sig_version
+        "siggen": "{} ({})".format(siggen_version, siggen_releasedate),
+        "python": sys.version.replace("\n", " "),
+        "fx-crash-sig": fx_crash_sig_version,
     }

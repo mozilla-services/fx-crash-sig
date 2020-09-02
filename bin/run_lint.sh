@@ -12,7 +12,7 @@
 
 set -e
 
-BLACKARGS=("--line-length=88" "--target-version=py36" fx-crash-sig tests)
+BLACKARGS=("--line-length=88" "--target-version=py36" fx_crash_sig tests)
 
 if [[ $1 == "--reformat" ]]; then
     echo ">>> reformat"
