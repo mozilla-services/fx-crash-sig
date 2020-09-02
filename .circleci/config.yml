@@ -58,9 +58,9 @@ workflows:
           requires:
             - build
 
-#       - lint:
-#           requires:
-#             - build
+      - lint:
+          requires:
+            - build
 
 #       - gcp-gcr/build-and-push-image:
 #           # See https://bugzilla.mozilla.org/show_bug.cgi?id=1608957 for details
