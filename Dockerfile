@@ -9,7 +9,10 @@ RUN groupadd --gid ${GROUP_ID} app && \
     useradd --uid ${USER_ID} --gid ${GROUP_ID} --home-dir /app --create-home app
 
 RUN apt-get update && \
-    apt-get install -y build-essential 
+    apt-get install -y build-essential && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /app
 
