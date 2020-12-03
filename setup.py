@@ -13,9 +13,9 @@ def read_file(name):
 
 
 install_requires = [
-    "requests==2.24.0",
-    "ujson==1.35",
-    "google-cloud-bigquery==1.27.2",
+    "requests==2.25.0",
+    "ujson==4.0.1",
+    "google-cloud-bigquery==2.5.0",
 
     # NOTE(willkg): We always want to run the latest siggen, so don't pin the
     # version
