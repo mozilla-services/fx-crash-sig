@@ -71,3 +71,25 @@ make test
 If you have problems with file permissions when using the Docker image, edit
 your `.env` file and change the `USER_ID` and `GROUP_ID` values to match your
 uid and gid.
+
+
+## Release process
+
+1. Create a `release_X_Y_Z` branch
+2. Update version and release date in `fx_crash_sig/__init__.py`
+3. Run tests
+4. Push branch to GitHub, create a PR, review it, and merge it
+5. Create a signed tag, push to GitHub:
+   ```sh
+   git tag -s vX.Y.Z
+   git push --tags REMOTE TAGNAME
+   ```
+6. Build package files:
+   ```sh
+   python setup.py sdist bdist_wheel
+   ```
+   Be sure to use Python 3 with a virtualenv with an updated `requirements.dev.txt` file.
+7. Upload to PyPI:
+   ```sh
+   twine upload dist/*
+   ```
