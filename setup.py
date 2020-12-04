@@ -4,12 +4,21 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
+import os
+import re
 from setuptools import setup, find_packages
 
 
 def read_file(name):
-    with open(name) as f:
-        return f.read().strip()
+    with open(name) as fp:
+        return fp.read().strip()
+
+
+def get_version():
+    fn = os.path.join("fx_crash_sig", "__init__.py")
+    vsre = r"""^__version__ = ['"]([^'"]*)['"]"""
+    version_file = open(fn, "rt").read()
+    return re.search(vsre, version_file, re.M).group(1)
 
 
 install_requires = [
@@ -27,13 +36,11 @@ extras_require = {
 
 setup(
     name="fx-crash-sig",
-    version="0.1.11",
+    version=get_version(),
     description="Get crash signature from Firefox crash trace",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
-    maintainer="Ben Wu",
-    maintainer_email="bwub124@gmail.com",
-    url="https://github.com/Ben-Wu/fx-crash-sig",
+    url="https://github.com/mozilla/fx-crash-sig",
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
