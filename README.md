@@ -11,8 +11,16 @@ Take crash trace and:
 
 ## Install (from [PyPI](https://pypi.org/project/fx-crash-sig/))
 
+To install:
+
 ```sh
 pip install fx-crash-sig
+```
+
+(Optional) Install with google-cloud-bigquery library requirements:
+
+```sh
+pip install fx-crash-sig[bq]
 ```
 
 ## Usage

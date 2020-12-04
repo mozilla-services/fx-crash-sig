@@ -27,7 +27,8 @@ ENV PYTHONUNBUFFERED=1 \
 
 COPY . /app
 
-RUN pip install --no-cache-dir /app
+# Install fx-crash-sig from source directory with bq extras
+RUN pip install --no-cache-dir '/app[bq]'
 
 RUN chown app:app /app/
 
