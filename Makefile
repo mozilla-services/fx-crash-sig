@@ -48,5 +48,5 @@ reformat:  ## | Reformat code
 	docker-compose run --rm app /app/bin/run_lint.sh --reformat
 
 .PHONY: test
-test:  ## | Run tests
+test:  ## | Run tests in docker environment
 	docker-compose run --rm app /app/bin/run_tests.sh

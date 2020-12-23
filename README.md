@@ -63,7 +63,7 @@ make lint
 make reformat
 ```
 
-Test:
+Test docker environment:
 
 ```sh
 make test
@@ -72,6 +72,15 @@ make test
 If you have problems with file permissions when using the Docker image, edit
 your `.env` file and change the `USER_ID` and `GROUP_ID` values to match your
 uid and gid.
+
+Test against Python versions:
+
+```sh
+tox
+```
+
+Note: This requires you have Python environments set up and a virtual
+environment with tox installed.
 
 
 ## Release process

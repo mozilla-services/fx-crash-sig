@@ -7,3 +7,5 @@ __pycache__
 build
 dist
 fx_crash_sig.egg-info/
+.tox
+.python-version

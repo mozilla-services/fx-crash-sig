@@ -20,8 +20,7 @@ if [[ $1 == "--reformat" ]]; then
 
 else
     echo ">>> flake8 ($(python --version))"
-    cd /app
-    flake8
+    flake8 fx_crash_sig tests
 
     echo ">>> black"
     black --check "${BLACKARGS[@]}"
