@@ -1,3 +1,4 @@
+---
 version: 2.1
 orbs:
   gcp-gcr: circleci/gcp-gcr@0.7.1
@@ -6,7 +7,8 @@ commands:
   restore-docker:
     description: Restore Docker image cache
     steps:
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.13
       - restore_cache:
           key: v1-{{.Branch}}
       - run:
@@ -14,9 +16,11 @@ commands:
           command: docker load -i /cache/docker.tar
 
 jobs:
-  build:
+  # Build and test the Docker image
+  build-docker:
     docker:
       - image: docker:stable-git
+
     steps:
       - checkout
 
@@ -26,47 +30,47 @@ jobs:
       - run:
           name: Build Docker image
           command: docker build -t app:build .
+
+      - run:
+          name: Test Code
+          command: docker run app:build /app/bin/run_tests.sh
+
       - run:
           name: docker save app:build
           command: mkdir -p /cache; docker save -o /cache/docker.tar "app:build"
+
       - save_cache:
           key: v1-{{ .Branch }}-{{epoch}}
           paths:
             - /cache/docker.tar
 
-  test:
-    docker: &docker
-      - image: docker:18.06.0-ce
-    steps:
-      - restore-docker
-      - run:
-          name: Test Code
-          command: docker run app:build /app/bin/run_tests.sh
+  # Test and lint the Python library in supported Python environments
+  test-library:
+    docker:
+      - image: themattrix/tox
 
-  lint:
-    docker: *docker
     steps:
-      - restore-docker
+      - checkout
+
       - run:
-          name: Lint Code
-          command: docker run app:build /app/bin/run_lint.sh
+          name: Install tox
+          command: pip install tox
+
+      - run:
+          name: Test and lint
+          command: tox
 
 workflows:
   version: 2
   main:
     jobs:
-      - build
+      - build-docker
 
-      - test:
-          requires:
-            - build
-
-      - lint:
-          requires:
-            - build
+      - test-library
 
 #       - gcp-gcr/build-and-push-image:
-#           # See https://bugzilla.mozilla.org/show_bug.cgi?id=1608957 for details
+#           # See https://bugzilla.mozilla.org/show_bug.cgi?id=1608957 for
+#           # details
 #           context: data-eng-airflow-gcr
 #           image: fx-crash-sig
 #           requires:
