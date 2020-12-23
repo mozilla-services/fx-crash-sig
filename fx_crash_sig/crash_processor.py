@@ -46,7 +46,7 @@ class CrashProcessor:
 
         sigs = []
         for (payload, sym) in zip(payloads, symbolicated):
-            sym = self.__postprocess_symbolicated(payload, sym)
+            sym = self._postprocess_symbolicated(payload, sym)
             sigs.append(self.get_signature_from_symbolicated(sym))
         return sigs
 
@@ -61,9 +61,9 @@ class CrashProcessor:
         else:
             symbolicated = self.symbolicator.symbolicate(crash_data)
 
-        return self.__postprocess(payload, symbolicated)
+        return self._postprocess_symbolicated(payload, symbolicated)
 
-    def __postprocess_symbolicated(self, payload, symbolicated):
+    def _postprocess_symbolicated(self, payload, symbolicated):
         metadata = payload.get("metadata") or {}
         meta_fields = {
             "ipc_channel_error": "ipc_channel_error",
