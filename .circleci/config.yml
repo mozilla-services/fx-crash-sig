@@ -45,6 +45,9 @@ jobs:
             - /cache/docker.tar
 
   # Test and lint the Python library in supported Python environments
+  #
+  # NOTE(willkg): This doesn't test >=3.9 because themattrix/tox doesn't
+  # support that, yet: https://github.com/themattrix/docker-tox/issues/22
   test-library:
     docker:
       - image: themattrix/tox
@@ -58,7 +61,7 @@ jobs:
 
       - run:
           name: Test and lint
-          command: tox
+          command: tox -e py36,py37,py38,py36-lint
 
 workflows:
   version: 2
