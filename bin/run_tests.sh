@@ -6,4 +6,9 @@
 
 # Usage: bin/run_tests.sh
 
+echo ">>>Running pytest..."
 pytest tests/
+echo ""
+
+echo ">>> Testing fx-crash-sig command..."
+cat sample.json | fx-crash-sig

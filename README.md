@@ -39,11 +39,12 @@ signature = crash_processor.get_signature(sample_traces.trace1)
 Command line (using [sample.json](/sample.json)):
 
 ```sh
-cat sample.json | fx-crash-sig
+$ cat sample.json | fx-crash-sig
+EMPTY: no crashing thread identified
 ```
 
 ```sh
-python example.py
+$ python example.py
 ```
 
 

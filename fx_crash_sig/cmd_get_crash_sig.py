@@ -34,21 +34,25 @@ def cmdline():
     crash_processor = CrashProcessor(verbose=args.verbose, windows=args.windows)
 
     if sys.stdin.isatty():
-        print("fx-crash-sig: Failed: pass crash trace using stdin")
+        print("fx-crash-sig: Failed: pass crash trace using stdin", file=sys.stderr)
         sys.exit(1)
 
     try:
         payload = json.loads(sys.stdin.read())
     except ValueError:
-        if args.verbose:
-            print("fx-crash-sig: Failed: Invalid input format")
+        print("fx-crash-sig: Failed: Invalid input format", file=sys.stderr)
         sys.exit(1)
 
     try:
-        signature = crash_processor.get_signature(payload)
-        if signature is not None:
-            print(json.dumps(signature))
-    except Exception as e:
-        if args.verbose:
-            print("fx-crash-sig: Failed: {}".format(e.message))
+        siggen_result = crash_processor.get_signature(payload)
+    except Exception as exc:
+        print(f"fx-crash-sig: Failed with exception: {exc}", file=sys.stderr)
         sys.exit(1)
+
+    if siggen_result is not None:
+        data = {
+            "signature": siggen_result.signature,
+            "notes": siggen_result.notes,
+            "extra": siggen_result.extra,
+        }
+        print(json.dumps(data, indent=2))
