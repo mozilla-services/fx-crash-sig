@@ -56,12 +56,16 @@ jobs:
       - checkout
 
       - run:
-          name: Install tox
-          command: pip install tox
+          name: Install requirements
+          command: pip install -r requirements.dev.txt
 
       - run:
-          name: Test and lint
-          command: tox -e py36,py37,py38,py36-lint
+          name: Test
+          command: tox -e py36,py37,py38
+
+      - run:
+          name: Lint
+          command: bin/run_lint.sh
 
 workflows:
   version: 2
