@@ -45,10 +45,23 @@ jobs:
             - /cache/docker.tar
 
   # Test and lint the Python library in supported Python environments
-  test-library:
+  test-library-36:
     docker:
-      - image: themattrix/tox
+      - image: circleci/python:3.6-buster
+    steps:
+      - checkout
 
+      - run:
+          name: Install requirements
+          command: pip install -r requirements.dev.txt
+
+      - run:
+          name: Test and lint
+          command: tox -e py36,py36-lint
+
+  test-library-37:
+    docker:
+      - image: circleci/python:3.7-buster
     steps:
       - checkout
 
@@ -58,11 +71,21 @@ jobs:
 
       - run:
           name: Test
-          command: tox -e py36,py37,py38
+          command: tox -e py37
+
+  test-library-38:
+    docker:
+      - image: circleci/python:3.8-buster
+    steps:
+      - checkout
 
       - run:
-          name: Lint
-          command: bin/run_lint.sh
+          name: Install requirements
+          command: pip install -r requirements.dev.txt
+
+      - run:
+          name: Test
+          command: tox -e py38
 
   test-library-39:
     docker:
@@ -84,7 +107,11 @@ workflows:
     jobs:
       - build-docker
 
-      - test-library
+      - test-library-36
+
+      - test-library-37
+
+      - test-library-38
 
       - test-library-39
 
