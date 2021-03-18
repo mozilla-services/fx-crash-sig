@@ -2,16 +2,15 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from __future__ import print_function
+from itertools import islice
 
 import requests
-from itertools import islice
+
+from fx_crash_sig import SYMBOLICATION_API
 
 
 class Symbolicator:
-    def __init__(self, max_frames=40,
-                 api_url='https://symbols.mozilla.org/symbolicate/v5',
-                 verbose=False):
+    def __init__(self, max_frames=40, api_url=SYMBOLICATION_API, verbose=False):
         self.max_frames = max_frames
         self.api_url = api_url
         self.empty_request = {'memoryMap': [], 'stacks': [], 'version': 5}
@@ -72,14 +71,16 @@ class Symbolicator:
                 ip_int = int(src_frame['ip'], 16)
                 out_frame['offset'] = src_frame['ip']
 
-                if 'module_index' not in src_frame:
+                if src_frame.get("module_index") is None:
+                    print(f"src_frame: {src_frame}")
                     continue
 
                 module_index = src_frame['module_index']
                 if not (module_index >= 0 and module_index < len(modules)):
-                    msg = "module_index " + module_index + " out of range for "
-                    msg += "thread " + thread_idx + " frame " + frame_idx
-                    raise ValueError(msg)
+                    raise ValueError(
+                        f"module {module_index} out of frange for thread {thread_idx} "
+                        f"frame {frame_idx}"
+                    )
 
                 module = modules[module_index]
 
@@ -140,15 +141,17 @@ class Symbolicator:
         except ValueError:
             return self.empty_request
 
-    def symbolicate(self, trace):
+    def symbolicate(self, stack_trace):
         """Symbolicate a single crash trace
 
-        :param dict trace: raw crash trace
+        :param dict stack_trace: raw crash trace from a crash_ping payload
+
         :return: dict: symbolicated trace
+
         """
-        if trace is None:
+        if stack_trace is None:
             return {}
-        symbolicated = self.symbolicate_multi([trace])
+        symbolicated = self.symbolicate_multi([stack_trace])
         return symbolicated if symbolicated is None else symbolicated[0]
 
     def symbolicate_multi(self, traces):
@@ -160,22 +163,35 @@ class Symbolicator:
         symbolication_requests = {
             'jobs': [self.__try_get_sym_req(t) for t in traces]
         }
-        crashing_threads = [t['crash_info'].get('crashing_thread', 0) for
-                            t in traces]
+        crashing_threads = [
+            t.get("crash_info", {}).get('crashing_thread', 0) if t else 0 for t in traces
+        ]
 
         try:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
         except requests.HTTPError as e:
             if self.verbose:
-                print('fx-crash-sig: Failed Symbolication: {}'.format(e.message))
+                print(f'fx-crash-sig: Failed Symbolication: {e.message}')
             return None
+
+        debug_file_to_filename = {}
+        for trace in traces:
+            for module in trace["modules"]:
+                if "debug_file" in module and "filename" in module:
+                    debug_file_to_filename[module["debug_file"]] = module["filename"]
 
         # make into siggen suitable format
         formatted_symbolications = []
-        for result, crashing_thread in zip(symbolicated_list['results'],
-                                           crashing_threads):
+        for result, crashing_thread in zip(symbolicated_list['results'], crashing_threads):
             symbolicated = {'crashing_thread': crashing_thread, 'threads': []}
             for frames in result['stacks']:
+                # FIXME(willkg): Tecken symbolication API returns "module" as
+                # the debug_file (e.g. xul.pdb), but it should be the module
+                # filename (e.g.  xul.dll). We fix that here.
+                for frame in frames:
+                    if frame.get("module") and frame["module"] in debug_file_to_filename:
+                        frame["module"] = debug_file_to_filename[frame["module"]]
                 symbolicated['threads'].append({'frames': frames})
             formatted_symbolications.append(symbolicated)
+
         return formatted_symbolications
