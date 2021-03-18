@@ -13,20 +13,18 @@ def read_file(name):
 
 
 install_requires = [
-    'requests',
-    'siggen',
-    'ujson',
+    "requests",
+    "siggen>=1.0.0,<2.0.0",
+    "ujson",
 ]
 
 setup(
-    name='fx-crash-sig',
-    version='0.1.11',
-    description=' Get crash signature from Firefox crash trace ',
-    long_description=read_file('README.md'),
-    long_description_content_type='text/markdown',
-    maintainer='Ben Wu',
-    maintainer_email='bwub124@gmail.com',
-    url='https://github.com/Ben-Wu/fx-crash-sig',
+    name="fx-crash-sig",
+    version="0.1.11",
+    description="Get crash signature from Firefox crash ping",
+    long_description=read_file("README.md"),
+    long_description_content_type="text/markdown",
+    url="https://github.com/mozilla/fx-crash-sig",
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
@@ -35,8 +33,13 @@ setup(
         fx-crash-sig=fx_crash_sig.cmd_get_crash_sig:cmdline
     """,
     classifiers=[
-        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
-        'Programming Language :: Python :: 2 :: Only',
-        'Development Status :: 2 - Pre-Alpha',
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+        "Programming Language :: Python :: 3 :: Only",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Development Status :: 2 - Pre-Alpha",
     ]
 )
