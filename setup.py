@@ -20,7 +20,7 @@ install_requires = [
 
 setup(
     name="fx-crash-sig",
-    version="0.1.12",
+    version="0.1.13",
     description="Get crash signature from Firefox crash ping",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",

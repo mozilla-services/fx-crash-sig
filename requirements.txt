@@ -1,3 +1,4 @@
+-e .
+
 requests==2.19.1
-siggen==0.1.2
 ujson==1.35
