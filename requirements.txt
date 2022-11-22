@@ -1,4 +1,4 @@
 -e .
 
 requests==2.19.1
-ujson==1.35
+ujson==5.4.0
