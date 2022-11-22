@@ -25,6 +25,14 @@ class CrashProcessor:
 
         """
         symbolicated = self.symbolicate(crash_ping)
+        if self.verbose:
+            print("Symbolicated stack:")
+            for frame in symbolicated["threads"][0]["frames"]:
+                if frame.get("filename") and frame.get("line"):
+                    # FIXME(willkg): find actual keys
+                    print(f"   {frame['frame']}    {frame['function']}  ({frame['filename']}:{frame['line']})")
+                else:
+                    print(f"   {frame['frame']}    {frame['function']}")
         signature_result = self.get_signature_from_symbolicated(symbolicated)
         if self.verbose and len(signature_result.signature) == 0:
             print(f'fx-crash-sig: Failed siggen: {signature_result.notes}')
