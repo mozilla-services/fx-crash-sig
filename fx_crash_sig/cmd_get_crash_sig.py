@@ -3,9 +3,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import argparse
+import json
 import sys
-
-import ujson as json
 
 from fx_crash_sig.crash_processor import CrashProcessor
 
