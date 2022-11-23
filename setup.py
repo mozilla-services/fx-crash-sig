@@ -43,5 +43,5 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Development Status :: 2 - Pre-Alpha",
-    ]
+    ],
 )

@@ -9,13 +9,10 @@ from fx_crash_sig.crash_processor import CrashProcessor
 
 
 def wrap_in_payload(crash_data):
-    return {
-        'metadata': {},
-        'stackTraces': crash_data
-    }
+    return {"metadata": {}, "stackTraces": crash_data}
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     crash_processor = CrashProcessor(verbose=True)
 
     trace_dict = wrap_in_payload(json.loads(sample_traces.string_trace2))
@@ -28,12 +25,14 @@ if __name__ == '__main__':
         signature = crash_processor.get_signature_from_symbolicated(symbolicated)
         print(signature)
 
-    signatures = [crash_processor.get_signature(wrap_in_payload(crash))
-                  for crash in [
-                      sample_traces.trace1,
-                      sample_traces.trace2,
-                  ]]
+    signatures = [
+        crash_processor.get_signature(wrap_in_payload(crash))
+        for crash in [
+            sample_traces.trace1,
+            sample_traces.trace2,
+        ]
+    ]
 
-    signatures = [sig['signature'] for sig in signatures if sig is not None]
+    signatures = [sig["signature"] for sig in signatures if sig is not None]
 
     print(signatures)
