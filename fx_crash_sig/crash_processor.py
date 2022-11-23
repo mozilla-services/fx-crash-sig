@@ -30,12 +30,14 @@ class CrashProcessor:
             for frame in symbolicated["threads"][0]["frames"]:
                 if frame.get("filename") and frame.get("line"):
                     # FIXME(willkg): find actual keys
-                    print(f"   {frame['frame']}    {frame['function']}  ({frame['filename']}:{frame['line']})")
+                    print(
+                        f"   {frame['frame']}    {frame['function']}  ({frame['filename']}:{frame['line']})"
+                    )
                 else:
                     print(f"   {frame['frame']}    {frame['function']}")
         signature_result = self.get_signature_from_symbolicated(symbolicated)
         if self.verbose and len(signature_result.signature) == 0:
-            print(f'fx-crash-sig: Failed siggen: {signature_result.notes}')
+            print(f"fx-crash-sig: Failed siggen: {signature_result.notes}")
         return signature_result
 
     def symbolicate(self, crash_ping):
@@ -88,12 +90,10 @@ class CrashProcessor:
             "async_shutdown_timeout",
             "oom_allocation_size",
             "moz_crash_reason",
-            "ipc_channel_error"
+            "ipc_channel_error",
         ]
 
-        symbolicated["os"] = (
-            "Windows NT" if normalized_os.startswith("Windows") else ""
-        )
+        symbolicated["os"] = "Windows NT" if normalized_os.startswith("Windows") else ""
         for field_name in metadata_fields:
             if metadata.get(field_name):
                 symbolicated[field_name] = metadata[field_name]
