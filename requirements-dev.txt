@@ -2,3 +2,4 @@
 
 pytest==7.2.0
 tox==3.27.1
+tox-gh-actions==2.11.0
