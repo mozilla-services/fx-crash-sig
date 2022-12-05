@@ -10,6 +10,27 @@ from fx_crash_sig import SYMBOLICATION_API
 from fx_crash_sig.symbolicate import Symbolicator
 
 
+def deep_get(data, path, default=None):
+    """Retrieves a node in the structure by dotted path
+
+    :arg data: structure of Python dicts
+    :arg path: dotted path string to the item in question
+    :arg default: default value to return if the item doesn't exist
+
+    :returns: the item in question or default
+
+    """
+    item = data
+    path = path.split(".")
+    for part in path:
+        if isinstance(item, dict) and part in item:
+            item = item[part]
+        else:
+            return default
+
+    return item
+
+
 class CrashProcessor:
     def __init__(self, max_frames=40, api_url=SYMBOLICATION_API, verbose=False):
         self.symbolicator = Symbolicator(max_frames, api_url, verbose)
@@ -107,6 +128,10 @@ class CrashProcessor:
                 )
             except TypeError:
                 metadata.pop("async_shutdown_timeout")
+
+        reason = deep_get(payload, "stack_traces.crash_info.type")
+        if reason is not None:
+            symbolicated["reason"] = reason
 
         return symbolicated
 
