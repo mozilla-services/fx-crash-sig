@@ -27,13 +27,9 @@ def cmdline():
             print("fx-crash-sig: Failed: Invalid input format")
         return
 
-    try:
-        result = crash_processor.get_signature(payload)
-        if result is not None:
-            print(f"signature: {result.signature}")
-            print(f"notes:     ({len(result.notes)})")
-            for note in result.notes:
-                print(f"           * {note}")
-    except Exception as exc:
-        if args.verbose:
-            print(f"fx-crash-sig: Failed: {exc!r}")
+    result = crash_processor.get_signature(payload)
+    if result is not None:
+        print(f"signature: {result.signature}")
+        print(f"notes:     ({len(result.notes)})")
+        for note in result.notes:
+            print(f"           * {note}")

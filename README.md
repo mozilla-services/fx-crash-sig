@@ -41,6 +41,10 @@ cat sample.json | fx-crash-sig
 
 ## Minimal crash ping structure
 
+The crash ping is documented here:
+
+https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/data/crash-ping.html
+
 These are the parts of the crash ping we use:
 
 ```
@@ -54,6 +58,7 @@ These are the parts of the crash ping we use:
   - stack_traces:
     - crash_info:
       - crashing_thread
+      - type
     - modules[]
       - debug_file
       - debug_id
