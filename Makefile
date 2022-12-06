@@ -22,7 +22,3 @@ clean:  ## Clean build artifacts
 	rm -rf build dist ${PROJECT}.egg-info .tox .pytest_cache .cache
 	find . -name __pycache__ | xargs rm -rf
 	find . -name '*.pyc' | xargs rm -rf
-
-.PHONY: release
-release:  ## Release a tag
-	./bin/release.sh

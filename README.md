@@ -116,5 +116,6 @@ make test
    ```
 6. Build and release package files:
    ```sh
-   make release
+   python -m build
+   twine upload -r fxcrashsig dist/*
    ```
