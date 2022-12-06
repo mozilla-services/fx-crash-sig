@@ -106,7 +106,7 @@ make test
 ## Release process
 
 1. Create a `release_X_Y_Z` branch
-2. Update version in `setup.py`
+2. Update version in `setup.py` and update `HISTORY.md`
 3. Run tests
 4. Push branch to GitHub, create a PR, review it, and merge it
 5. Create a signed tag, push to GitHub:
