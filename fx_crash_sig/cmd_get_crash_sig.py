@@ -27,13 +27,17 @@ def cmdline():
             print(f"{key}: {val}")
         return
 
+    if sys.stdin.isatty():
+        print("fx-crash-sig: Failed: pass crash trace using stdin", file=sys.stderr)
+        sys.exit(1)
+
     crash_processor = CrashProcessor(verbose=args.verbose)
     try:
         payload = json.loads(sys.stdin.read())
     except ValueError:
         if args.verbose:
             print("fx-crash-sig: Failed: Invalid input format", file=sys.stderr)
-        return
+        sys.exit(1)
 
     result = crash_processor.get_signature(payload)
     if result is not None:
