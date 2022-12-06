@@ -9,7 +9,7 @@ from fx_crash_sig.crash_processor import CrashProcessor
 
 
 def wrap_in_payload(crash_data):
-    return {"metadata": {}, "stackTraces": crash_data}
+    return {"metadata": {}, "stack_traces": crash_data}
 
 
 if __name__ == "__main__":
