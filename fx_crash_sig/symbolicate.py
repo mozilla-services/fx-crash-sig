@@ -7,6 +7,7 @@ from itertools import islice
 import requests
 
 from fx_crash_sig import SYMBOLICATION_API, __version__
+from fx_crash_sig.utils import deep_get
 
 
 class Symbolicator:
@@ -78,7 +79,10 @@ class Symbolicator:
                     print(f"src_frame: {src_frame}")
                     continue
 
-                module_index = src_frame["module_index"]
+                module_index = src_frame.get("module_index")
+                if module_index is None:
+                    continue
+
                 if not (module_index >= 0 and module_index < len(modules)):
                     raise ValueError(
                         f"module {module_index} out of frange for thread {thread_idx} "
@@ -126,7 +130,10 @@ class Symbolicator:
             return self.empty_request
 
         sym_request = {
-            "stacks": [[f["lookup"] for f in t] for t in threads_to_symbolicate],
+            "stacks": [
+                [frame["lookup"] for frame in thread]
+                for thread in threads_to_symbolicate
+            ],
             "memoryMap": [
                 [debug_file, debug_id]
                 for (debug_file, debug_id) in modules_to_symbolicate
@@ -173,10 +180,12 @@ class Symbolicator:
         :param list traces: list of raw crash traces
         :return: list of symbolicated traces
         """
-        symbolication_requests = {"jobs": [self.__try_get_sym_req(t) for t in traces]}
+        symbolication_requests = {
+            "jobs": [self.__try_get_sym_req(trace) for trace in traces]
+        }
         crashing_threads = [
-            t.get("crash_info", {}).get("crashing_thread", 0) if t else 0
-            for t in traces
+            deep_get(trace, "crash_info.crashing_thread", default=0) if trace else 0
+            for trace in traces
         ]
 
         try:

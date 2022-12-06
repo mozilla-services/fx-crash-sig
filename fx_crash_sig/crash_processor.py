@@ -8,27 +8,7 @@ from siggen.generator import SignatureGenerator
 
 from fx_crash_sig import SYMBOLICATION_API
 from fx_crash_sig.symbolicate import Symbolicator
-
-
-def deep_get(data, path, default=None):
-    """Retrieves a node in the structure by dotted path
-
-    :arg data: structure of Python dicts
-    :arg path: dotted path string to the item in question
-    :arg default: default value to return if the item doesn't exist
-
-    :returns: the item in question or default
-
-    """
-    item = data
-    path = path.split(".")
-    for part in path:
-        if isinstance(item, dict) and part in item:
-            item = item[part]
-        else:
-            return default
-
-    return item
+from fx_crash_sig.utils import deep_get
 
 
 class CrashProcessor:
@@ -95,10 +75,10 @@ class CrashProcessor:
             # do with this crash report
             payload = json.loads(payload)
 
-        metadata = payload.get("metadata", {})
-        stack_traces = payload["stack_traces"]
+        metadata = payload.get("metadata") or {}
+        stack_traces = payload.get("stack_traces") or {}
 
-        if stack_traces is None or len(stack_traces) == 0:
+        if len(stack_traces) == 0:
             symbolicated = {}
         elif metadata.get("ipc_channel_error"):
             # ipc_channel_error will always overwrite the crash signature so
