@@ -32,7 +32,7 @@ def cmdline():
         payload = json.loads(sys.stdin.read())
     except ValueError:
         if args.verbose:
-            print("fx-crash-sig: Failed: Invalid input format")
+            print("fx-crash-sig: Failed: Invalid input format", file=sys.stderr)
         return
 
     result = crash_processor.get_signature(payload)

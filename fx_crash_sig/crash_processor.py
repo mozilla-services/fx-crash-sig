@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import json
+import sys
 
 from siggen.generator import SignatureGenerator
 
@@ -38,7 +39,10 @@ class CrashProcessor:
                     print(f"   {frame['frame']}    {frame['function']}")
         signature_result = self.get_signature_from_symbolicated(symbolicated)
         if self.verbose and len(signature_result.signature) == 0:
-            print(f"fx-crash-sig: Failed siggen: {signature_result.notes}")
+            print(
+                f"fx-crash-sig: Failed siggen: {signature_result.notes}",
+                file=sys.stderr,
+            )
         return signature_result
 
     def symbolicate(self, crash_ping):
