@@ -70,3 +70,24 @@ These are the parts of the crash ping we use:
          - module_index
          - trust
 ```
+
+## For development
+
+Build:
+
+```sh
+make build
+```
+
+Lint:
+
+```sh
+make lint
+make reformat
+```
+
+Test:
+
+```sh
+make test
+```
