@@ -6,7 +6,7 @@ from itertools import islice
 
 import requests
 
-from fx_crash_sig import SYMBOLICATION_API
+from fx_crash_sig import SYMBOLICATION_API, __version__
 
 
 class Symbolicator:
@@ -137,7 +137,10 @@ class Symbolicator:
         return sym_request
 
     def __get_symbolicated_trace(self, sym_request):
-        response = requests.post(self.api_url, json=sym_request)
+        headers = {
+            "User-Agent": f"fx-crash-sig/{__version__}",
+        }
+        response = requests.post(self.api_url, headers=headers, json=sym_request)
         response.raise_for_status()
         sym_result = response.json()
 
