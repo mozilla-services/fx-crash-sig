@@ -6,6 +6,7 @@ import argparse
 import json
 import sys
 
+from fx_crash_sig import get_version_info
 from fx_crash_sig.crash_processor import CrashProcessor
 
 
@@ -17,7 +18,14 @@ Takes raw crash trace and symbolicates it to return the crash signature
 def cmdline():
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument("-v", "--verbose", action="store_true")
+    parser.add_argument("--version", action="store_true")
     args = parser.parse_args()
+
+    if args.version:
+        version_info = get_version_info()
+        for key, val in sorted(version_info.items()):
+            print(f"{key}: {val}")
+        return
 
     crash_processor = CrashProcessor(verbose=args.verbose)
     try:
