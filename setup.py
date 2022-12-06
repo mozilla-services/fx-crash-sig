@@ -12,22 +12,25 @@ def read_file(name):
         return f.read().strip()
 
 
-install_requires = [
+VERSION = "0.1.13"
+
+INSTALL_REQUIRES = [
     "requests<3.0.0",
-    "siggen>=1.0.0,<2.0.0",
+    "siggen>=1.0.0, <2.0.0",
+    "importlib_metadata",
 ]
 
 
 setup(
     name="fx-crash-sig",
-    version="0.1.13",
+    version=VERSION,
     description="Get crash signature from Firefox crash ping",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
     url="https://github.com/mozilla/fx-crash-sig",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=install_requires,
+    install_requires=INSTALL_REQUIRES,
     entry_points="""
         [console_scripts]
         fx-crash-sig=fx_crash_sig.cmd_get_crash_sig:cmdline
