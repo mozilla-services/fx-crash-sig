@@ -4,9 +4,18 @@ Symbolicates crash pings and generates signatures.
 
 Take crash ping stack traces and:
 
-1. Use [tecken](https://github.com/mozilla-services/tecken) symbolication to symbolicate crash ping stack traces
+1. Use [Mozilla Symbolication Service](https://symbolication.services.mozilla.com)
+   symbolication to symbolicate crash ping stack traces
+2. Use [socorro-siggen](https://github.com/willkg/socorro-siggen) library to
+   generate a crash signature
 
-2. use [socorro-siggen](https://github.com/willkg/socorro-siggen) to get crash signature
+
+Project details:
+
+* Code: https://github.com/mozilla/fx-crash-sig
+* Issues: https://github.com/mozilla/fx-crash-sig/issues
+* License: MPL v2
+* Documentation: This README
 
 
 ## Install (from [PyPI](https://pypi.org/project/fx-crash-sig/))
@@ -70,6 +79,7 @@ These are the parts of the crash ping we use:
          - module_index
          - trust
 ```
+
 
 ## For development
 
