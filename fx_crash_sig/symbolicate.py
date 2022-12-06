@@ -45,9 +45,7 @@ class Symbolicator:
             raise ValueError(msg)
 
         if not (crashing_thread >= 0 and crashing_thread < len(threads)):
-            msg = "crashing_thread " + str(crashing_thread)
-            msg += " out of range"
-            raise ValueError(msg)
+            raise ValueError(f"crashing_thread {crashing_thread} out of range")
 
         modules_to_symbolicate = []
         threads_to_symbolicate = []
@@ -69,9 +67,9 @@ class Symbolicator:
                 out_frame = {}
 
                 if "ip" not in src_frame:
-                    msg = "missing ip for thread " + thread_idx + " frame "
-                    msg += frame_idx
-                    raise ValueError(msg)
+                    raise ValueError(
+                        f"missing ip for thread {thread_idx} frame {frame_idx}"
+                    )
 
                 ip_int = int(src_frame["ip"], 16)
                 out_frame["offset"] = src_frame["ip"]
@@ -93,15 +91,14 @@ class Symbolicator:
                 module = modules[module_index]
 
                 if "base_addr" not in module:
-                    msg = "missing base_addr for module " + module_index
-                    raise ValueError(msg)
+                    raise ValueError(f"missing base_addr for module {module_index}")
 
                 try:
                     module_offset_int = ip_int - int(module["base_addr"], 16)
                 except ValueError:
-                    msg = "bad base_addr " + module["base_addr"]
-                    msg += "for module " + module_index
-                    raise ValueError(msg)
+                    raise ValueError(
+                        f"bad base_addr {module['base_addr']} for module {module_index}"
+                    )
 
                 if "filename" in module:
                     out_frame["module"] = module["filename"]
