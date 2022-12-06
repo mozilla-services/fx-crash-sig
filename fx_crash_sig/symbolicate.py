@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 from itertools import islice
+import sys
 
 import requests
 
@@ -192,7 +193,9 @@ class Symbolicator:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
         except requests.HTTPError as e:
             if self.verbose:
-                print(f"fx-crash-sig: Failed Symbolication: {e.message}")
+                print(
+                    f"fx-crash-sig: Failed Symbolication: {e.message}", file=sys.stderr
+                )
             return None
 
         debug_file_to_filename = {}
