@@ -14,7 +14,7 @@ test:  ## Run tests, linting, and static typechecking
 .PHONY: lint
 lint:  ## Lint and black reformat files
 	# NOTE(willkg): Make sure this matches what's in tox.ini.
-	black --target-version=py37 --line-length=88 setup.py fx_crash_sig tests
+	black setup.py fx_crash_sig tests
 	tox -e py37-lint
 
 .PHONY: clean

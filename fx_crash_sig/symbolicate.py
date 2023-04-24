@@ -95,10 +95,10 @@ class Symbolicator:
 
                 try:
                     module_offset_int = ip_int - int(module["base_addr"], 16)
-                except ValueError:
+                except ValueError as exc:
                     raise ValueError(
                         f"bad base_addr {module['base_addr']} for module {module_index}"
-                    )
+                    ) from exc
 
                 if "filename" in module:
                     out_frame["module"] = module["filename"]
