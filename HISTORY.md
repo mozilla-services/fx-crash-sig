@@ -1,5 +1,10 @@
 # HISTORY
 
+# v1.0.1 (July 12th, 2023)
+
+* Fix `--verbose` output when frame has no function. (#72)
+
+
 # v1.0.0 (December 6th, 2022)
 
 * Switch to github actions for CI. (#47)
