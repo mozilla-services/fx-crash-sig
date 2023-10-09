@@ -15,8 +15,8 @@ def read_file(name):
 VERSION = "1.0.1"
 
 INSTALL_REQUIRES = [
-    "requests<3.0.0",
-    "siggen>=1.0.0, <2.0.0",
+    "requests",
+    "siggen",
     "importlib_metadata",
 ]
 
