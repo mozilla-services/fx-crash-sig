@@ -12,7 +12,7 @@ def read_file(name):
         return f.read().strip()
 
 
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 INSTALL_REQUIRES = [
     "requests",
