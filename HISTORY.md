@@ -1,5 +1,13 @@
 # HISTORY
 
+# v1.0.2 (October 9th, 2023)
+
+* Drop support for Python 3.7. (#75)
+* Add support for Python 3.12. (#76)
+* Update siggen version requirements.
+* Improve README. (#56)
+
+
 # v1.0.1 (July 12th, 2023)
 
 * Fix `--verbose` output when frame has no function. (#72)
