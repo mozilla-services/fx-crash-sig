@@ -48,13 +48,21 @@ Command line (using [sample.json](/sample.json)):
 cat sample.json | fx-crash-sig
 ```
 
+Run this for more command line help:
+
+```python
+fx-crash-sig --help
+```
+
+
 ## Minimal crash ping structure
 
-The crash ping is documented here:
+The legacy crash ping (the pingsender one--not the glean one) is documented
+here:
 
 https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/data/crash-ping.html
 
-These are the parts of the crash ping we use:
+These are the parts of the legacy crash ping we use:
 
 ```
 - normalized_os                (optional)
@@ -80,24 +88,58 @@ These are the parts of the crash ping we use:
          - trust
 ```
 
+## API
 
-## For development
+### fx_crash_sig.crash_processor
 
-Build:
+`CrashProcessor`
 
-```sh
-make build
-```
+    * arg: `max_frames`: int (40)
+    * arg: `api_url`: str (`https://symbolication.services.mozilla.com/symbolicate/v5`)
+    * arg: `verbose`: bool
 
-Lint:
+    `get_signature`
 
-```sh
-make lint
-make reformat
-```
+        Takes a crash ping structure, symbolicates it using Mozilla
+        Symbolication Service, generates a signature, and returns the signature
+        result.
 
-Test:
+        * arg: `crash_ping`: dict
+        * returns: `siggen.generator.Result`
 
-```sh
-make test
-```
+    `symbolicate`
+
+        Symbolicates the stack traces in a crash ping structure payload.
+
+        * arg: `crash_ping`: dict
+        * returns: symbolicated stack traces
+
+    `get_signature_from_symbolicated`
+
+        Takes the output of `symbolicate`, generates a signature, and returns
+        the signature result.
+
+        * arg: `symbolicated`: dict
+        * returns: `siggen.generator.Result`
+
+### fx_crash_sig.symbolicate
+
+`Symbolicator`
+
+    * arg: `max_frames`: int (40)
+    * arg: `api_url`: str (`https://symbolication.services.mozilla.com/symbolicate/v5`)
+    * arg: `verbose`: bool
+
+    `symbolicate`
+
+        Symbolicates a single stack trace.
+
+        * arg: `stack_trace`: dict
+        * returns: symbolicated stack trace
+
+    `symbolicate_multi`
+
+        Symbolicates a list of stack traces.
+
+        * arg: `stack_traces`: list of dicts
+        * returns: list of symbolicated traces

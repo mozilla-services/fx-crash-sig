@@ -160,11 +160,11 @@ class Symbolicator:
             return self.empty_request
 
     def symbolicate(self, stack_trace):
-        """Symbolicate a single crash trace
+        """Symbolicate a single stack trace
 
-        :param dict stack_trace: raw crash trace from a crash_ping payload
+        :param dict stack_trace: raw stack trace from a legacy crash ping payload
 
-        :return: dict: symbolicated trace
+        :return: dict: symbolicated stack trace
 
         """
         if stack_trace is None:
@@ -173,10 +173,12 @@ class Symbolicator:
         return {} if symbolicated is None else symbolicated[0]
 
     def symbolicate_multi(self, traces):
-        """Symbolicate a list of crash traces
+        """Symbolicate a list of stack traces
 
-        :param list traces: list of raw crash traces
+        :param list traces: list of raw stack traces from legacy crash ping payloads
+
         :return: list of symbolicated traces
+
         """
         symbolication_requests = {
             "jobs": [self.__try_get_sym_req(trace) for trace in traces]
