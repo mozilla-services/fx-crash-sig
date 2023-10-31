@@ -74,12 +74,9 @@ class Symbolicator:
                 ip_int = int(src_frame["ip"], 16)
                 out_frame["offset"] = src_frame["ip"]
 
-                if src_frame.get("module_index") is None:
-                    print(f"src_frame: {src_frame}")
-                    continue
-
                 module_index = src_frame.get("module_index")
                 if module_index is None:
+                    print(f"src_frame: {src_frame}")
                     continue
 
                 if not (module_index >= 0 and module_index < len(modules)):
