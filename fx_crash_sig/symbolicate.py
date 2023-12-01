@@ -194,12 +194,6 @@ class Symbolicator:
                 )
             return None
 
-        debug_file_to_filename = {}
-        for trace in traces:
-            for module in trace["modules"]:
-                if "debug_file" in module and "filename" in module:
-                    debug_file_to_filename[module["debug_file"]] = module["filename"]
-
         # make into siggen suitable format
         formatted_symbolications = []
         for result, crashing_thread in zip(
@@ -207,15 +201,6 @@ class Symbolicator:
         ):
             symbolicated = {"crashing_thread": crashing_thread, "threads": []}
             for frames in result["stacks"]:
-                # FIXME(willkg): Tecken symbolication API returns "module" as
-                # the debug_file (e.g. xul.pdb), but it should be the module
-                # filename (e.g.  xul.dll). We fix that here.
-                for frame in frames:
-                    if (
-                        frame.get("module")
-                        and frame["module"] in debug_file_to_filename
-                    ):
-                        frame["module"] = debug_file_to_filename[frame["module"]]
                 symbolicated["threads"].append({"frames": frames})
             formatted_symbolications.append(symbolicated)
 
