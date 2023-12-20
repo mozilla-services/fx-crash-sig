@@ -27,7 +27,7 @@ setup(
     description="Get crash signature from Firefox crash ping",
     long_description=read_file("README.md"),
     long_description_content_type="text/markdown",
-    url="https://github.com/mozilla/fx-crash-sig",
+    url="https://github.com/mozilla-services/fx-crash-sig",
     packages=find_packages(),
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,

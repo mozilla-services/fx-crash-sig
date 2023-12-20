@@ -12,8 +12,8 @@ Take crash ping stack traces and:
 
 Project details:
 
-* Code: https://github.com/mozilla/fx-crash-sig
-* Issues: https://github.com/mozilla/fx-crash-sig/issues
+* Code: https://github.com/mozilla-services/fx-crash-sig
+* Issues: https://github.com/mozilla-services/fx-crash-sig/issues
 * License: MPL v2
 * Documentation: This README
 
