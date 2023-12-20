@@ -14,11 +14,6 @@ src = ["src"]
 docstring-quotes = "double"
 
 
-[tool.black]
-line-length = 88
-target-version = ["py38"]
-
-
 [tool.pytest.ini_options]
 filterwarnings = ["error"]
 
@@ -50,6 +45,6 @@ commands = pytest {posargs} tests/
 basepython = python3.8
 changedir = {toxinidir}
 commands =
-    black --check setup.py fx_crash_sig tests
-    ruff setup.py fx_crash_sig tests
+    ruff format setup.py fx_crash_sig tests
+    ruff check setup.py fx_crash_sig tests
 """
