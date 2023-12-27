@@ -45,6 +45,6 @@ commands = pytest {posargs} tests/
 basepython = python3.8
 changedir = {toxinidir}
 commands =
-    ruff format setup.py fx_crash_sig tests
+    ruff format --check setup.py fx_crash_sig tests
     ruff check setup.py fx_crash_sig tests
 """
