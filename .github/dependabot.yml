@@ -6,5 +6,5 @@ updates:
     schedule:
       interval: "monthly"
     reviewers:
-      - "willkg"
+      - "obs-team"
     rebase-strategy: "disabled"
