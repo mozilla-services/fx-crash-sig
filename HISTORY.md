@@ -1,5 +1,10 @@
 # HISTORY
 
+# v1.0.3 (in development)
+
+* Switch to pyproject.toml (#97)
+
+
 # v1.0.2 (October 9th, 2023)
 
 * Drop support for Python 3.7. (#75)
