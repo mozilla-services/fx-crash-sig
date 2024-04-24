@@ -1,0 +1,5 @@
+include CODE_OF_CONDUCT.md
+include HISTORY.md
+include MANIFEST.in
+include Makefile
+include sample.json

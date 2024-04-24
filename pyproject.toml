@@ -31,6 +31,7 @@ fx-crash-sig = "fx_crash_sig.cmd_get_crash_sig:cmdline"
 [project.optional-dependencies]
 dev = [
     "build",
+    "check-manifest",
     "pytest",
     "ruff",
     "tox",
