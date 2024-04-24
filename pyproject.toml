@@ -1,3 +1,50 @@
+[project]
+name = "fx-crash-sig"
+description = "Get crash signature from Firefox crash ping"
+version = "1.0.2"
+readme = "README.md"
+license = {text = "MPLv2"}
+requires-python = ">=3.8"
+dependencies = [
+    "requests",
+    "siggen",
+    "importlib_metadata",
+]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Development Status :: 2 - Pre-Alpha",
+]
+urls.Homepage = "https://github.com/mozilla-services/fx-crash-sig/"
+urls.Source = "https://github.com/mozilla-services/fx-crash-sig/"
+urls.Issues = "https://github.com/mozilla-services/fx-crash-sig/issues"
+
+[project.scripts]
+fx-crash-sig = "fx_crash_sig.cmd_get_crash_sig:cmdline"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "pytest",
+    "ruff",
+    "tox",
+    "tox-gh-actions",
+    "twine",
+    "wheel",
+]
+
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
 [tool.ruff]
 # Enable pycodestyle (E), pyflakes (F), and bugbear (B) rules
 select = ["E", "F", "B"]
@@ -38,13 +85,13 @@ python =
     3.12: py312
 
 [testenv]
-deps = -rrequirements-dev.txt
+extras = dev
 commands = pytest {posargs} tests/
 
 [testenv:py38-lint]
 basepython = python3.8
 changedir = {toxinidir}
 commands =
-    ruff format --check setup.py fx_crash_sig tests
-    ruff check setup.py fx_crash_sig tests
+    ruff format --check fx_crash_sig tests
+    ruff check fx_crash_sig tests
 """
