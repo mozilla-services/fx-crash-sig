@@ -13,13 +13,14 @@ import sys
 from siggen import __version__ as siggen_version
 
 
-# Default symbolication API URL
-SYMBOLICATION_API = "https://symbolication.services.mozilla.com/symbolicate/v5"
-
 try:
     __version__ = importlib_version("fx-crash-sig")
 except PackageNotFoundError:
     __version__ = "unknown"
+
+
+# Default symbolication API URL
+SYMBOLICATION_API = "https://symbolication.services.mozilla.com/symbolicate/v5"
 
 
 def get_version_info():
