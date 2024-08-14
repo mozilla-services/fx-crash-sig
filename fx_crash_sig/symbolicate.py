@@ -187,11 +187,9 @@ class Symbolicator:
 
         try:
             symbolicated_list = self.__get_symbolicated_trace(symbolication_requests)
-        except requests.HTTPError as e:
+        except requests.HTTPError as exc:
             if self.verbose:
-                print(
-                    f"fx-crash-sig: Failed Symbolication: {e.message}", file=sys.stderr
-                )
+                print(f"fx-crash-sig: Failed Symbolication: {exc}", file=sys.stderr)
             return None
 
         # make into siggen suitable format
