@@ -143,6 +143,10 @@ class Symbolicator:
             "User-Agent": f"fx-crash-sig/{__version__}",
         }
         response = requests.post(self.api_url, headers=headers, json=sym_request)
+
+        if response.status_code == 400 and self.verbose:
+            print(f"fx-crash-sig: BadResponse: {response.text}", file=sys.stderr)
+
         response.raise_for_status()
         sym_result = response.json()
 
