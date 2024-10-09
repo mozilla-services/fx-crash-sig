@@ -1,7 +1,7 @@
 [project]
 name = "fx-crash-sig"
-description = "Get crash signature from Firefox crash ping"
-version = "1.0.2"
+description = "DEPRECATED: Get crash signature from Firefox crash ping"
+version = "1.0.3"
 readme = "README.md"
 license = {text = "MPLv2"}
 requires-python = ">=3.8"

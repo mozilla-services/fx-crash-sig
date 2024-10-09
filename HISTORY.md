@@ -1,9 +1,9 @@
 # HISTORY
 
-# v1.0.3 (in development)
+# v1.0.3 (October 9th, 2024)
 
 * Switch to `pyproject.toml`. (#97)
-* Deprecated the project. (#111)
+* Deprecate the project. (#111)
 
 
 # v1.0.2 (October 9th, 2023)
